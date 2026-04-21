@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --check \"c:\\\\Users\\\\eberl\\\\Dropbox\\\\02 Beruf, Weiterbildung\\\\007 Weiterbildung\\\\etf-vs-bauspar\\\\script.js\")",
+      "Bash(node.exe --check \"c:\\\\Users\\\\eberl\\\\Dropbox\\\\02 Beruf, Weiterbildung\\\\007 Weiterbildung\\\\etf-vs-bauspar\\\\script.js\")",
+      "Bash(python3 -c ' *)"
+    ]
+  }
+}

@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ETF vs. Bausparvertrag – Kostenloser Sparrechner 2027</title>
+
+  <!-- SEO + LinkedIn-Vorschau -->
+  <meta name="description" content="Kostenloser Sparrechner: ETF-Sparplan vs. Bausparvertrag im direkten Vergleich. Inklusive Inflation, Förderprüfung und Altersvorsorgedepot 2027." />
+  <meta property="og:title" content="ETF vs. Bausparvertrag – Kostenloser Sparrechner" />
+  <meta property="og:description" content="Finde heraus, welche Sparform für dich besser ist. Mit Inflationsrechner, Szenariovergleich und staatlicher Förderprüfung." />
+  <meta property="og:type" content="website" />
+
+  <!-- Theme sofort setzen (vor CSS-Rendering) → verhindert weißes Aufblitzen -->
+  <script>
+    (function() {
+      var t = localStorage.getItem('theme') || 'dark';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+  </script>
+
+  <!-- Chart.js – defer: blockiert kein HTML-Parsing mehr -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <!-- Dark Mode Toggle (oben rechts) -->
+    <button
+      type="button"
+      class="theme-toggle"
+      id="theme-toggle"
+      aria-label="Farbschema wechseln"
+      title="Hell-/Dunkel-Modus umschalten"
+    >
+      <span class="theme-toggle-icon" id="theme-toggle-icon">☀️</span>
+    </button>
+
+    <div class="container">
+      <h1 class="site-title">
+        <span class="accent">ETF</span> vs. <span class="accent">Bausparvertrag</span>
+      </h1>
+      <p class="site-subtitle">
+        Finde heraus, welche Sparform für dich die bessere Wahl ist – einfach erklärt.
+      </p>
+    </div>
+  </header>
+
+  <!-- ===== MOTTO / HERO ===== -->
+  <section class="hero-motto">
+    <div class="container">
+      <p class="hero-quote">
+        „Die beste Zeit zu investieren war gestern.<br>
+        Die zweitbeste Zeit ist <em>jetzt.</em>"
+      </p>
+      <p class="hero-sub">
+        Egal ob 50 € oder 500 € im Monat – der Zinseszins arbeitet für <strong>jeden</strong>.<br>
+        Mach dein Geld zum besten Mitarbeiter, den du je hattest. 🚀
+      </p>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <span class="hs-zahl">67 %</span>
+          <span class="hs-label">der Deutschen haben keine private Altersvorsorge</span>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat">
+          <span class="hs-zahl">100 €</span>
+          <span class="hs-label">pro Monat werden bei 7 % Rendite in 30 Jahren zu ~122.000 €</span>
+        </div>
+        <div class="hero-divider"></div>
+        <div class="hero-stat">
+          <span class="hs-zahl">∞</span>
+          <span class="hs-label">Spaß, wenn man sieht wie das Geld wächst</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== HAUPTINHALT ===== -->
+  <main class="container">
+
+    <!-- ===== EINSTEIGER-QUIZ (Onboarding) ===== -->
+    <section class="card quiz-card" id="quiz-card">
+
+      <!-- Fortschritts-Punkte -->
+      <div class="quiz-progress" role="progressbar" aria-label="Quiz-Fortschritt">
+        <div class="quiz-dot active" data-step="0"></div>
+        <div class="quiz-dot" data-step="1"></div>
+        <div class="quiz-dot" data-step="2"></div>
+        <div class="quiz-dot" data-step="3"></div>
+        <div class="quiz-dot" data-step="4"></div>
+      </div>
+
+      <div class="quiz-steps-wrapper">
+
+        <!-- Schritt 1: Alter -->
+        <div class="quiz-step active" data-step="0">
+          <h3 class="quiz-frage">Wie alt bist du ungefähr?</h3>
+          <div class="quiz-tiles">
+            <button class="quiz-tile" type="button" data-key="alter" data-value="22">18–25</button>
+            <button class="quiz-tile" type="button" data-key="alter" data-value="30">26–35</button>
+            <button class="quiz-tile" type="button" data-key="alter" data-value="40">36–45</button>
+            <button class="quiz-tile" type="button" data-key="alter" data-value="52">46–60</button>
+          </div>
+        </div>
+
+        <!-- Schritt 2: Sparbetrag -->
+        <div class="quiz-step" data-step="1">
+          <h3 class="quiz-frage">Wie viel kannst du monatlich zurücklegen?</h3>
+          <div class="quiz-tiles">
+            <button class="quiz-tile" type="button" data-key="sparbetrag" data-value="75">Unter 100 €</button>
+            <button class="quiz-tile" type="button" data-key="sparbetrag" data-value="200">100–300 €</button>
+            <button class="quiz-tile" type="button" data-key="sparbetrag" data-value="450">300–600 €</button>
+            <button class="quiz-tile" type="button" data-key="sparbetrag" data-value="800">Über 600 €</button>
+          </div>
+        </div>
+
+        <!-- Schritt 3: Zeitraum -->
+        <div class="quiz-step" data-step="2">
+          <h3 class="quiz-frage">Wann möchtest du auf das Geld zugreifen?</h3>
+          <div class="quiz-tiles">
+            <button class="quiz-tile" type="button" data-key="spardauer" data-value="7">In 5–10 Jahren</button>
+            <button class="quiz-tile" type="button" data-key="spardauer" data-value="15">In 10–20 Jahren</button>
+            <button class="quiz-tile" type="button" data-key="spardauer" data-value="25">In 20–30 Jahren</button>
+            <button class="quiz-tile" type="button" data-key="spardauer" data-value="35">In 30+ Jahren</button>
+          </div>
+        </div>
+
+        <!-- Schritt 4: Risikobereitschaft -->
+        <div class="quiz-step" data-step="3">
+          <h3 class="quiz-frage">Wie gehst du mit Risiko um?</h3>
+          <div class="quiz-tiles quiz-tiles--risiko">
+            <button class="quiz-tile quiz-tile--risiko" type="button" data-key="risiko" data-value="konservativ">
+              <span class="quiz-tile-icon">🛡️</span>
+              <span class="quiz-tile-titel">Sicherheit first</span>
+              <span class="quiz-tile-sub">Lieber weniger Rendite, dafür kein Risiko</span>
+            </button>
+            <button class="quiz-tile quiz-tile--risiko" type="button" data-key="risiko" data-value="ausgewogen">
+              <span class="quiz-tile-icon">⚖️</span>
+              <span class="quiz-tile-titel">Ausgewogen</span>
+              <span class="quiz-tile-sub">Etwas Risiko ist okay für mehr Rendite</span>
+            </button>
+            <button class="quiz-tile quiz-tile--risiko" type="button" data-key="risiko" data-value="wachstum">
+              <span class="quiz-tile-icon">🚀</span>
+              <span class="quiz-tile-titel">Rendite maximieren</span>
+              <span class="quiz-tile-sub">Ich kann mit Kursschwankungen leben</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Schritt 5: Beschäftigungsstatus -->
+        <div class="quiz-step" data-step="4">
+          <h3 class="quiz-frage">Was beschreibt deine aktuelle Situation am besten?</h3>
+          <div class="quiz-tiles quiz-tiles--status">
+            <button class="quiz-tile quiz-tile--risiko" type="button" data-key="status" data-value="angestellt">
+              <span class="quiz-tile-icon">💼</span>
+              <span class="quiz-tile-titel">Angestellt / Vollzeit</span>
+              <span class="quiz-tile-sub">Festes Arbeitsverhältnis, sozialversicherungspflichtig</span>
+            </button>
+            <button class="quiz-tile quiz-tile--risiko" type="button" data-key="status" data-value="ausbildung">
+              <span class="quiz-tile-icon">📚</span>
+              <span class="quiz-tile-titel">Ausbildung</span>
+              <span class="quiz-tile-sub">Duales Studium oder klassische Berufsausbildung</span>
+            </button>
+            <button class="quiz-tile quiz-tile--risiko" type="button" data-key="status" data-value="student">
+              <span class="quiz-tile-icon">🎓</span>
+              <span class="quiz-tile-titel">Student / Studentin</span>
+              <span class="quiz-tile-sub">Vollzeitstudium, kein oder geringer Nebenjob</span>
+            </button>
+            <button class="quiz-tile quiz-tile--risiko" type="button" data-key="status" data-value="minijob">
+              <span class="quiz-tile-icon">🛍️</span>
+              <span class="quiz-tile-titel">Minijob / Nebenjob</span>
+              <span class="quiz-tile-sub">450 € / 520 €-Job oder geringfügige Beschäftigung</span>
+            </button>
+            <button class="quiz-tile quiz-tile--risiko" type="button" data-key="status" data-value="selbststaendig">
+              <span class="quiz-tile-icon">🏢</span>
+              <span class="quiz-tile-titel">Selbstständig / Freiberuflich</span>
+              <span class="quiz-tile-sub">Eigenes Unternehmen, Freelancer oder freier Beruf</span>
+            </button>
+            <button class="quiz-tile quiz-tile--risiko" type="button" data-key="status" data-value="sonstiges">
+              <span class="quiz-tile-icon">👤</span>
+              <span class="quiz-tile-titel">Sonstiges</span>
+              <span class="quiz-tile-sub">Beamte, nicht erwerbstätig, Elternzeit, etc.</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Abschluss-Screen -->
+        <div class="quiz-step quiz-finish-step" data-step="5" id="quiz-finish-screen">
+          <div class="quiz-finish">
+            <div class="quiz-finish-emoji" id="quiz-finish-emoji">💪</div>
+            <div class="quiz-spartyp-badge" id="quiz-spartyp-badge"></div>
+            <h3 class="quiz-finish-titel" id="quiz-finish-titel">Alles klar!</h3>
+            <p class="quiz-finish-text" id="quiz-finish-text">
+              Für dein Profil haben wir die besten Einstellungen vorbereitet.
+              Jetzt zeigen wir dir, wie dein Geld wachsen kann.
+            </p>
+            <button class="btn-primary" type="button" id="quiz-start-btn">
+              Rechner starten →
+            </button>
+          </div>
+        </div>
+
+      </div><!-- .quiz-steps-wrapper -->
+
+      <a href="#" class="quiz-skip" id="quiz-skip">
+        Ich kenne mich aus → direkt zum Rechner
+      </a>
+
+    </section>
+
+    <!-- ===== EINGABEFORMULAR ===== -->
+    <!-- hidden: wird per JS eingeblendet (Quiz läuft zuerst, kein Flash) -->
+    <section class="card form-section hidden">
+      <h2>Deine Angaben</h2>
+
+      <!-- Formular-Vollständigkeitsanzeige (per JS aktualisiert) -->
+      <div class="form-vollstaendigkeit empfohlen" id="form-vollstaendigkeit">
+        <span id="fv-text">Tipp: Gib dein Einkommen ein für automatische Förderprüfung</span>
+      </div>
+
+      <form id="sparform" novalidate>
+
+        <!-- Grunddaten -->
+        <div class="form-group">
+          <label for="alter">Dein aktuelles Alter</label>
+          <div class="input-row">
+            <input
+              type="range" id="alter" name="alter"
+              min="18" max="60" value="30"
+              aria-describedby="alter-val"
+            />
+            <output id="alter-val" class="range-output">30 Jahre</output>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="sparbetrag">Monatlicher Sparbetrag</label>
+          <div class="input-row">
+            <input
+              type="range" id="sparbetrag" name="sparbetrag"
+              min="50" max="2000" step="25" value="250"
+              aria-describedby="sparbetrag-val"
+            />
+            <output id="sparbetrag-val" class="range-output">250 €</output>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="spardauer">Spardauer</label>
+          <div class="input-row">
+            <input
+              type="range" id="spardauer" name="spardauer"
+              min="5" max="40" value="20"
+              aria-describedby="spardauer-val"
+            />
+            <output id="spardauer-val" class="range-output">20 Jahre</output>
+          </div>
+        </div>
+
+        <!-- Inflationsrate -->
+        <div class="form-group">
+          <label for="inflation">
+            Angenommene Inflationsrate
+            <span class="tooltip-icon"
+              data-tooltip="Die Inflation gibt an, um wie viel Prozent die Preise jährlich steigen. Bei 2 % Inflation sind 100 € in 20 Jahren real nur noch ca. 67 € wert. Der historische Durchschnitt in Deutschland liegt bei ca. 2 %/Jahr.">?</span>
+          </label>
+          <div class="input-row">
+            <input
+              type="range" id="inflation" name="inflation"
+              min="1" max="4" step="0.5" value="2"
+              aria-describedby="inflation-val"
+            />
+            <output id="inflation-val" class="range-output">2,0 %</output>
+          </div>
+        </div>
+
+        <!-- Risikobereitschaft (beeinflusst ETF-Rendite) -->
+        <div class="form-group">
+          <label>
+            Risikobereitschaft
+            <span
+              class="tooltip-icon"
+              data-tooltip="Beeinflusst die angenommene ETF-Jahresrendite: konservativ 5 %, ausgewogen 7 %, wachstumsorientiert 9 % p.a."
+            >?</span>
+          </label>
+          <div class="radio-group" role="radiogroup" aria-label="Risikobereitschaft">
+            <label class="radio-card">
+              <input type="radio" name="risiko" value="konservativ" />
+              <span class="radio-label">
+                <strong>Konservativ</strong>
+                <small>5 % p.a. Rendite</small>
+              </span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="risiko" value="ausgewogen" checked />
+              <span class="radio-label">
+                <strong>Ausgewogen</strong>
+                <small>7 % p.a. Rendite</small>
+              </span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="risiko" value="wachstum" />
+              <span class="radio-label">
+                <strong>Wachstumsorientiert</strong>
+                <small>9 % p.a. Rendite</small>
+              </span>
+            </label>
+          </div>
+        </div>
+
+        <!-- TER-Hinweis -->
+        <div class="ter-hinweis">
+          <span class="ter-label">
+            Kosten (
+            <span class="tooltip-icon" data-tooltip="TER = Total Expense Ratio (Gesamtkostenquote). Bei ETFs ca. 0,2 % p.a. – das bedeutet, von 1.000 € werden jährlich 2 € als Verwaltungsgebühr abgezogen. Der Gegenspieler sind aktiv gemanagte Fonds mit 1,5–2,5 % TER, die historisch trotzdem schlechter abschneiden als günstige Index-ETFs.">TER</span>
+            ) dieser Berechnung:
+          </span>
+          <strong>0,20 % p.a. (typisch für MSCI World ETFs)</strong>
+        </div>
+
+        <!-- ===== EINKOMMEN & FAMILIENSTAND ===== -->
+        <fieldset class="form-group einkommen-bereich">
+          <legend>
+            Persönliche Situation
+            <span class="tooltip-icon"
+              data-tooltip="Deine Angaben werden nur lokal in deinem Browser verwendet, um staatliche Förderungen automatisch zu prüfen. Es werden keine Daten übertragen.">?</span>
+          </legend>
+
+          <!-- Single / Paar Toggle -->
+          <div class="form-group">
+            <label>Familienstand</label>
+            <div class="toggle-group" role="group" aria-label="Familienstand">
+              <button type="button" class="toggle-btn active" id="toggle-single" data-status="single">
+                Single
+              </button>
+              <button type="button" class="toggle-btn" id="toggle-paar" data-status="paar">
+                Paar / Verheiratet
+              </button>
+            </div>
+            <!-- Verstecktes Feld für den aktuellen Status -->
+            <input type="hidden" id="familienstand" name="familienstand" value="single" />
+          </div>
+
+          <!-- Einkommensfeld -->
+          <div class="form-group">
+            <label for="einkommen">
+              Jährliches zu versteuerndes Einkommen
+              <span class="tooltip-icon"
+                data-tooltip="Das zu versteuernde Einkommen steht auf deinem Einkommensteuerbescheid. Es ist dein Bruttolohn abzüglich Werbungskosten, Sonderausgaben usw. Grobe Faustregel: ca. 75–85 % deines Bruttogehalts.">?</span>
+            </label>
+            <div class="einkommen-row">
+              <input
+                type="number"
+                id="einkommen"
+                name="einkommen"
+                min="0"
+                max="500000"
+                step="1000"
+                value="30000"
+                placeholder="z.B. 30000"
+              />
+              <span class="einkommen-suffix">€ / Jahr</span>
+            </div>
+          </div>
+
+          <!-- Beschäftigungsstatus -->
+          <div class="form-group">
+            <label>
+              Beschäftigungsstatus
+              <span class="tooltip-icon"
+                data-tooltip="Dein Beschäftigungsstatus beeinflusst, ob du Anspruch auf staatliche Förderungen wie das Altersvorsorgedepot hast.">?</span>
+            </label>
+            <div class="status-radio-group" role="radiogroup" aria-label="Beschäftigungsstatus">
+              <label class="status-radio-card">
+                <input type="radio" name="beschaeftigung" value="angestellt" checked />
+                <span class="status-radio-label">
+                  <span class="status-radio-icon">💼</span>
+                  <span>Angestellt</span>
+                </span>
+              </label>
+              <label class="status-radio-card">
+                <input type="radio" name="beschaeftigung" value="ausbildung" />
+                <span class="status-radio-label">
+                  <span class="status-radio-icon">📚</span>
+                  <span>Ausbildung</span>
+                </span>
+              </label>
+              <label class="status-radio-card">
+                <input type="radio" name="beschaeftigung" value="student" />
+                <span class="status-radio-label">
+                  <span class="status-radio-icon">🎓</span>
+                  <span>Student</span>
+                </span>
+              </label>
+              <label class="status-radio-card">
+                <input type="radio" name="beschaeftigung" value="minijob" />
+                <span class="status-radio-label">
+                  <span class="status-radio-icon">🛍️</span>
+                  <span>Minijob</span>
+                </span>
+              </label>
+              <label class="status-radio-card">
+                <input type="radio" name="beschaeftigung" value="selbststaendig" />
+                <span class="status-radio-label">
+                  <span class="status-radio-icon">🏢</span>
+                  <span>Selbstständig</span>
+                </span>
+              </label>
+              <label class="status-radio-card">
+                <input type="radio" name="beschaeftigung" value="sonstiges" />
+                <span class="status-radio-label">
+                  <span class="status-radio-icon">👤</span>
+                  <span>Sonstiges</span>
+                </span>
+              </label>
+            </div>
+
+            <!-- Minijob-Zusatzfrage (slideDown bei Minijob-Auswahl) -->
+            <div class="minijob-zusatzfrage hidden" id="minijob-zusatzfrage" aria-live="polite">
+              <p class="minijob-frage-text">
+                Hast du dich von der Rentenversicherungspflicht befreien lassen?
+              </p>
+              <div class="toggle-group" role="group" aria-label="RV-Befreiung">
+                <button type="button" class="toggle-btn active" id="mj-btn-nein" data-val="false">
+                  Nein (Standard)
+                </button>
+                <button type="button" class="toggle-btn" id="mj-btn-ja" data-val="true">
+                  Ja, befreit
+                </button>
+              </div>
+              <input type="hidden" id="minijob-befreit" value="false" />
+            </div>
+
+            <!-- Förder-Info-Box (per JS befüllt und eingeblendet) -->
+            <div class="foerder-info-box hidden" id="foerder-info-box" aria-live="polite">
+              <div class="foerder-info-header">
+                <span class="foerder-info-badge" id="foerder-info-badge"></span>
+                <span class="foerder-info-hinweis" id="foerder-info-hinweis"></span>
+              </div>
+              <button type="button" class="foerder-info-mehr" id="foerder-info-mehr" aria-expanded="false">
+                Mehr erfahren
+              </button>
+              <div class="foerder-info-details hidden" id="foerder-info-details"></div>
+            </div>
+          </div>
+
+          <!-- Förder-Hinweise (werden per JS befüllt) -->
+          <div id="foerder-hinweise" aria-live="polite"></div>
+
+        </fieldset>
+
+        <!-- ===== BAUSPAR-OPTIONEN ===== -->
+        <fieldset class="form-group bauspar-optionen">
+          <legend>
+            Bausparvertrag – Optionen
+          </legend>
+
+          <div class="form-group">
+            <label for="guthabenzins">
+              Guthabenzins
+              <span
+                class="tooltip-icon"
+                data-tooltip="Der jährliche Zinssatz, den dein Bausparvertrag auf das angesparte Guthaben zahlt. Aktuell typisch: 0,1 % – 1,0 %."
+              >?</span>
+            </label>
+            <div class="input-row">
+              <input
+                type="range" id="guthabenzins" name="guthabenzins"
+                min="0.1" max="1.0" step="0.1" value="0.5"
+                aria-describedby="guthabenzins-val"
+              />
+              <output id="guthabenzins-val" class="range-output">0,5 %</output>
+            </div>
+          </div>
+
+          <div class="checkbox-group">
+
+            <!-- Wohnungsbauprämie -->
+            <div class="checkbox-wrapper">
+              <label class="checkbox-card" id="card-wohnpraemie">
+                <input type="checkbox" id="wohnpraemie" name="wohnpraemie" />
+                <span class="checkbox-label">
+                  <strong>Wohnungsbauprämie</strong>
+                  <small>
+                    8,8 % auf max. 700 €/Jahr
+                    <span
+                      class="tooltip-icon"
+                      data-tooltip="Staatliche Förderung für Bausparer. Voraussetzung: zu versteuerndes Einkommen unter 35.000 € (Singles) bzw. 70.000 € (Paare).">?</span>
+                  </small>
+                </span>
+              </label>
+              <!-- Hinweis-Badge (per JS eingeblendet) -->
+              <div class="foerder-badge hidden" id="badge-wohnpraemie"></div>
+            </div>
+
+            <!-- Arbeitnehmersparzulage -->
+            <div class="checkbox-wrapper">
+              <label class="checkbox-card" id="card-ansparzulage">
+                <input type="checkbox" id="ansparzulage" name="ansparzulage" />
+                <span class="checkbox-label">
+                  <strong>Arbeitnehmersparzulage</strong>
+                  <small>
+                    9 % auf max. 470 € VL/Jahr
+                    <span
+                      class="tooltip-icon"
+                      data-tooltip="Staatliche Zulage für vermögenswirksame Leistungen (VL). Nur anwendbar, wenn dein Arbeitgeber VL zahlt.">?</span>
+                  </small>
+                </span>
+              </label>
+              <div class="foerder-badge hidden" id="badge-ansparzulage"></div>
+            </div>
+
+          </div>
+
+        </fieldset>
+
+        <!-- Submit -->
+        <button type="submit" class="btn-primary" id="berechnen-btn">
+          Jetzt vergleichen
+        </button>
+
+      </form>
+
+      <!-- Szenario B hinzufügen (außerhalb des Forms) -->
+      <div class="szenario-b-add-row">
+        <button type="button" class="btn-szenario-add" id="szenario-b-toggle">
+          + Szenario B hinzufügen
+        </button>
+        <p class="szenario-b-add-info">
+          Vergleiche z.&nbsp;B. einen <strong>höheren Sparbetrag</strong>, eine
+          <strong>längere Laufzeit</strong> oder mehr <strong>Risikobereitschaft</strong> –
+          alle Werte aus Szenario&nbsp;A werden automatisch übernommen, du änderst nur was dich interessiert.
+        </p>
+      </div>
+
+    </section>
+
+    <!-- ===== SZENARIO B FORMULAR (anfangs versteckt) ===== -->
+    <section class="card form-section szenario-b-section hidden" id="szenario-b-section" aria-hidden="true">
+
+      <div class="szenario-b-header">
+        <div>
+          <h2>
+            Szenario B
+            <span class="szenario-tag">Vergleich</span>
+          </h2>
+          <p class="szenario-b-hint">
+            Ändere einzelne Parameter – z.B. höherer Sparbetrag oder längere Laufzeit –
+            und klicke erneut auf „Jetzt vergleichen".
+          </p>
+        </div>
+        <button type="button" class="btn-szenario-remove" id="szenario-b-remove">
+          × Entfernen
+        </button>
+      </div>
+
+      <div class="szenario-b-fields">
+
+        <div class="form-group">
+          <label for="sparbetrag-b">Monatlicher Sparbetrag (B)</label>
+          <div class="input-row">
+            <input type="range" id="sparbetrag-b" min="50" max="2000" step="25" value="400" />
+            <output id="sparbetrag-b-val" class="range-output range-output--b">400 €</output>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="spardauer-b">Spardauer (B)</label>
+          <div class="input-row">
+            <input type="range" id="spardauer-b" min="5" max="40" value="25" />
+            <output id="spardauer-b-val" class="range-output range-output--b">25 Jahre</output>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>
+            Risikobereitschaft (B)
+            <span class="tooltip-icon" data-tooltip="Beeinflusst die ETF-Rendite: konservativ 5 %, ausgewogen 7 %, wachstumsorientiert 9 % p.a.">?</span>
+          </label>
+          <div class="radio-group" role="radiogroup">
+            <label class="radio-card radio-card--b">
+              <input type="radio" name="risiko-b" value="konservativ" />
+              <span class="radio-label"><strong>Konservativ</strong><small>5 % p.a.</small></span>
+            </label>
+            <label class="radio-card radio-card--b">
+              <input type="radio" name="risiko-b" value="ausgewogen" checked />
+              <span class="radio-label"><strong>Ausgewogen</strong><small>7 % p.a.</small></span>
+            </label>
+            <label class="radio-card radio-card--b">
+              <input type="radio" name="risiko-b" value="wachstum" />
+              <span class="radio-label"><strong>Wachstumsorientiert</strong><small>9 % p.a.</small></span>
+            </label>
+          </div>
+        </div>
+
+        <fieldset class="form-group bauspar-optionen bauspar-optionen--b">
+          <legend>Bausparvertrag B – Optionen</legend>
+
+          <div class="form-group">
+            <label for="guthabenzins-b">Guthabenzins (B)</label>
+            <div class="input-row">
+              <input type="range" id="guthabenzins-b" min="0.1" max="1.0" step="0.1" value="0.5" />
+              <output id="guthabenzins-b-val" class="range-output range-output--b">0,5 %</output>
+            </div>
+          </div>
+
+          <div class="checkbox-group">
+            <label class="checkbox-card checkbox-card--b">
+              <input type="checkbox" id="wohnpraemie-b" name="wohnpraemie-b" />
+              <span class="checkbox-label">
+                <strong>Wohnungsbauprämie</strong>
+                <small>8,8 % auf max. 700 €/Jahr</small>
+              </span>
+            </label>
+            <label class="checkbox-card checkbox-card--b">
+              <input type="checkbox" id="ansparzulage-b" name="ansparzulage-b" />
+              <span class="checkbox-label">
+                <strong>Arbeitnehmersparzulage</strong>
+                <small>9 % auf max. 470 € VL/Jahr</small>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+      </div><!-- .szenario-b-fields -->
+    </section>
+
+    <!-- ===== ERGEBNISBEREICH (wird nach Berechnung eingeblendet) ===== -->
+    <section class="results-section hidden" id="results">
+
+      <!-- Story-Card: personalisierte Zusammenfassung (per JS befüllt) -->
+      <div class="card story-card" id="story-card">
+        <div class="story-emoji" id="story-emoji">🏆</div>
+        <p class="story-hauptsatz" id="story-hauptsatz"></p>
+        <p class="story-vergleich" id="story-vergleich"></p>
+        <p class="story-inflation hidden" id="story-inflation"></p>
+      </div>
+
+      <!-- Endwert-Karten -->
+      <div class="result-cards">
+        <div class="result-card etf-card">
+          <div class="result-card-label">ETF-Sparplan (MSCI World)</div>
+          <div class="result-card-value" id="etf-endwert">–</div>
+          <div class="result-card-sub" id="etf-sub">–</div>
+        </div>
+        <div class="vs-badge">VS</div>
+        <div class="result-card bauspar-card">
+          <div class="result-card-label">Bausparvertrag (Sparkasse)</div>
+          <div class="result-card-value" id="bauspar-endwert">–</div>
+          <div class="result-card-sub" id="bauspar-sub">–</div>
+        </div>
+      </div>
+
+      <!-- Liniendiagramm -->
+      <div class="card chart-card">
+        <h2>Vermögensentwicklung im Zeitverlauf</h2>
+        <p class="chart-hinweis">Die grüne Fläche zwischen ETF-Linie und der gestrichelten Einzahlungslinie zeigt deinen Zinseszins-Gewinn.</p>
+        <div class="chart-wrapper">
+          <canvas id="sparChart" aria-label="Vergleichsdiagramm ETF vs. Bauspar"></canvas>
+        </div>
+      </div>
+
+      <!-- Aktions-Leiste: Teilen + PDF -->
+      <div class="aktions-leiste" id="aktions-leiste">
+        <button type="button" class="btn-aktion btn-teilen" id="btn-teilen">
+          <span class="btn-aktion-icon">🔗</span>
+          Link teilen
+        </button>
+        <button type="button" class="btn-aktion btn-pdf" id="btn-pdf">
+          <span class="btn-aktion-icon">📄</span>
+          Als PDF exportieren
+        </button>
+        <!-- Bestätigungsnachricht (per JS eingeblendet) -->
+        <span class="copy-bestaetigung hidden" id="copy-bestaetigung">
+          ✓ Link kopiert!
+        </span>
+      </div>
+
+      <!-- Szenario B Ergebnisse (nur sichtbar wenn B aktiv) -->
+      <div class="result-cards szenario-b-results hidden" id="szenario-b-results">
+        <div class="result-card etf-card etf-card--b">
+          <div class="result-card-label">ETF-Sparplan B</div>
+          <div class="result-card-value" id="etf-b-endwert">–</div>
+          <div class="result-card-sub" id="etf-b-sub">–</div>
+        </div>
+        <div class="vs-badge vs-badge--b">B</div>
+        <div class="result-card bauspar-card bauspar-card--b">
+          <div class="result-card-label">Bausparvertrag B</div>
+          <div class="result-card-value" id="bauspar-b-endwert">–</div>
+          <div class="result-card-sub" id="bauspar-b-sub">–</div>
+        </div>
+      </div>
+
+      <!-- Kennzahlen-Tabelle -->
+      <div class="card kennzahlen-card">
+        <h2>Kennzahlen im Vergleich</h2>
+        <table class="kennzahlen-table">
+          <thead>
+            <tr>
+              <th>Kennzahl</th>
+              <th>ETF-Sparplan</th>
+              <th>Bausparvertrag</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Eingezahltes Kapital</td>
+              <td id="kz-einzahlung-etf">–</td>
+              <td id="kz-einzahlung-bauspar">–</td>
+            </tr>
+            <tr>
+              <td>Gewinn (absolut)</td>
+              <td id="kz-gewinn-etf">–</td>
+              <td id="kz-gewinn-bauspar">–</td>
+            </tr>
+            <tr>
+              <td>Rendite (gesamt)</td>
+              <td id="kz-rendite-etf">–</td>
+              <td id="kz-rendite-bauspar">–</td>
+            </tr>
+            <tr>
+              <td>
+                Steuerbelastung
+                <span
+                  class="tooltip-icon"
+                  data-tooltip="Abgeltungssteuer (25 % + 5,5 % Solidaritätszuschlag) auf Kursgewinne, abzüglich Sparerpauschbetrag von 1.000 €/Jahr."
+                >?</span>
+              </td>
+              <td id="kz-steuer-etf">–</td>
+              <td class="na-cell">entfällt</td>
+            </tr>
+            <tr id="kz-row-real" class="hidden">
+              <td>
+                Realer Endwert
+                <span class="tooltip-icon"
+                  data-tooltip="Der inflationsbereinigte Endwert zeigt, wie viel dein Geld in heutiger Kaufkraft wert ist. Bei 2 % Inflation ist 1 € in 20 Jahren nur noch ca. 67 Cent wert.">?</span>
+              </td>
+              <td id="kz-real-etf">–</td>
+              <td id="kz-real-bauspar">–</td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Inflations-Erklärung (per JS befüllt) -->
+        <p class="inflation-erklaerung hidden" id="inflation-erklaerung"></p>
+      </div>
+
+      <!-- Zinseszins-Erklärung (nur sichtbar wenn ETF gewinnt) -->
+      <div class="card zinseszins-card hidden" id="zinseszins-card">
+        <h2>Was ist der Zinseszinseffekt?</h2>
+        <p id="zinseszins-erklaerung"></p>
+        <div id="zinseszins-balken"></div>
+      </div>
+
+      <!-- Empfehlungsbox -->
+      <div class="card empfehlung-card" id="empfehlung-box">
+        <div class="empfehlung-icon" id="empfehlung-icon">💡</div>
+        <div class="empfehlung-text">
+          <h3 id="empfehlung-titel">Unsere Einschätzung</h3>
+          <p id="empfehlung-text">–</p>
+        </div>
+      </div>
+
+      <!-- ETF-Empfehlungen + Bauspar-Optimierung -->
+      <div class="card" id="empfehlungen-card">
+        <h2>Passende Produktempfehlungen</h2>
+        <div class="empfehlungen-grid">
+          <div class="empfehlung-produkt etf-produkt">
+            <h3>ETF-Empfehlungen</h3>
+            <div id="etf-empfehlungen-liste"></div>
+          </div>
+          <div class="empfehlung-produkt bauspar-produkt">
+            <h3>Bauspar-Optimierung</h3>
+            <p class="optim-szenario-label">Szenario A</p>
+            <div id="bauspar-optimierung"></div>
+            <!-- Szenario B Optimierung (nur wenn B aktiv) -->
+            <div id="bauspar-optimierung-b-wrap" class="hidden">
+              <p class="optim-szenario-label optim-szenario-label--b">Szenario B</p>
+              <div id="bauspar-optimierung-b"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Staatlich gefördertes Altersvorsorgedepot ab 2027 -->
+      <div class="card accordion-card" id="altersvorsorgedepot-card">
+        <button
+          class="accordion-header"
+          type="button"
+          aria-expanded="false"
+          aria-controls="altersvorsorgedepot-body"
+          id="altersvorsorgedepot-trigger"
+        >
+          <div class="accordion-header-main">
+            <span class="accordion-card-icon">🏛️</span>
+            <div class="accordion-title-group">
+              <span class="accordion-title">Staatlich gefördertes Altersvorsorgedepot</span>
+              <span class="accordion-subtitle">Neue ETF-Rentenförderung ab 2027</span>
+            </div>
+            <span class="accordion-badge">Neu ab 2027</span>
+          </div>
+          <span class="accordion-chevron" aria-hidden="true">›</span>
+        </button>
+        <div
+          class="accordion-body"
+          id="altersvorsorgedepot-body"
+          role="region"
+          aria-labelledby="altersvorsorgedepot-trigger"
+        >
+          <div class="accordion-body-inner">
+
+            <!-- Persönliche Förder-Zusammenfassung (per JS befüllt) -->
+            <div id="avd-persoenlich"></div>
+
+            <!-- Block 1: Was ist das? -->
+            <div class="avd-block">
+              <h4>Was ist das Altersvorsorgedepot?</h4>
+              <p>Das Altersvorsorgedepot ist die Nachfolge der Riester-Rente – und deutlich besser.
+                Ab Januar 2027 kannst du staatlich gefördert direkt in ETFs investieren, ganz ohne
+                teuren Versicherungsmantel. Der Staat zahlt dir eine direkte Zulage direkt auf dein Depot.</p>
+            </div>
+
+            <!-- Block 2: Förderung als 3-Kacheln-Grid -->
+            <div class="avd-block avd-block--highlight">
+              <h4>🎁 Staatliche Förderung auf einen Blick</h4>
+              <div class="avd-kacheln-grid">
+                <div class="avd-kachel">
+                  <span class="avd-kachel-icon">💰</span>
+                  <strong class="avd-kachel-titel">Bis zu 540 €<br>Zulage/Jahr</strong>
+                  <span class="avd-kachel-sub">Bei 1.800 € Eigenbeitrag<br>(= 150 €/Monat)</span>
+                </div>
+                <div class="avd-kachel">
+                  <span class="avd-kachel-icon">📈</span>
+                  <strong class="avd-kachel-titel">Steuerfrei<br>ansparen</strong>
+                  <span class="avd-kachel-sub">Keine Abgeltungssteuer während der Ansparphase – der Zinseszins arbeitet ungebremst</span>
+                </div>
+                <div class="avd-kachel">
+                  <span class="avd-kachel-icon">👶</span>
+                  <strong class="avd-kachel-titel">300 €<br>Kinderzulage</strong>
+                  <span class="avd-kachel-sub">Pro Kind und Jahr, bereits ab 25 €/Monat Eigenbeitrag</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Block 3: Wie nutzt du es am besten? -->
+            <div class="avd-block">
+              <h4>🎯 Wie nutzt du es am besten?</h4>
+              <ol class="avd-numlist">
+                <li>Bis zu <strong>150 €/Monat</strong> ins Altersvorsorgedepot einzahlen
+                  → maximale Förderung (540 €/Jahr) ausschöpfen</li>
+                <li>Alles darüber hinaus weiter im <strong>normalen ETF-Sparplan</strong> anlegen</li>
+                <li>Jetzt schon bei <strong>Scalable Capital</strong> oder <strong>Trade Republic</strong> auf die
+                  Warteliste – kein Fördermonat verschenken</li>
+                <li><strong>MSCI World ETF</strong> wählen: günstig (TER &lt; 0,2 %), breit gestreut,
+                  historisch ~7 % Rendite p.a.</li>
+              </ol>
+            </div>
+
+            <!-- Block 4: Förder-Staffelung (Tabelle) -->
+            <div class="avd-block">
+              <h4>📊 So funktioniert die Förderung genau:</h4>
+              <div class="avd-tabelle-wrap">
+                <table class="avd-tabelle">
+                  <thead>
+                    <tr>
+                      <th>Dein Beitrag</th>
+                      <th>Staatliche Zulage</th>
+                      <th>Förderquote</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Erste 360 €</td>
+                      <td class="avd-td-gruen">180 € (50 %)</td>
+                      <td><strong>50 %</strong></td>
+                    </tr>
+                    <tr>
+                      <td>Weitere 1.440 €</td>
+                      <td class="avd-td-gruen">360 € (25 %)</td>
+                      <td><strong>25 %</strong></td>
+                    </tr>
+                    <tr class="avd-tr-gesamt">
+                      <td><strong>Gesamt 1.800 €</strong></td>
+                      <td class="avd-td-gruen"><strong>540 €</strong></td>
+                      <td><strong>30 %</strong></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Block 5: Disclaimer -->
+            <div class="avd-block avd-block--info">
+              <p>⚠️ <strong>Stand: Bundestagsbeschluss vom 27. März 2026.</strong>
+                Das Gesetz muss noch den Bundesrat passieren (Abstimmung geplant für Mai 2026).
+                Start zum <strong>01.01.2027</strong> ist geplant, aber noch nicht final bestätigt.
+                Die Förderberechtigungsprüfung auf dieser Website ist eine vereinfachte Einschätzung
+                und ersetzt keine individuelle Steuer- oder Rechtsberatung.</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Girokonto-Vergleich -->
+      <div class="card" id="girokonto-card">
+        <h2>Was wäre auf dem Girokonto passiert?</h2>
+        <div id="girokonto-inhalt"></div>
+      </div>
+
+      <!-- Spartipps -->
+      <div class="card spartipps-card">
+        <h2>Tipps für erfolgreiches Sparen</h2>
+        <div id="spartipps-liste"></div>
+      </div>
+
+      <!-- Reset -->
+      <button type="button" class="btn-reset" id="reset-btn">
+        ↩ Neue Berechnung
+      </button>
+
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <p class="footer-disclaimer">
+        Alle Angaben ohne Gewähr. Historische Renditen sind keine Garantie für
+        zukünftige Ergebnisse. Bitte konsultiere einen unabhängigen
+        Finanzberater für persönliche Anlageentscheidungen.
+      </p>
+      <p class="footer-stand">
+        Stand der Altersvorsorgedepot-Informationen: Bundestagsbeschluss März 2026
+      </p>
+    </div>
+  </footer>
+
+  <!-- Floating Tooltip (wird per JS befüllt) -->
+  <div id="tooltip-box" class="tooltip-box" role="tooltip" aria-hidden="true"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
